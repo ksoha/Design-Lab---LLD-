@@ -67,7 +67,7 @@ func (r *HashRing) GetNode(key string) (string, error) {
 
 	//finding the next clockwise node position on the ring
 	idx := sort.Search(len(r.nodes), func(i int) bool {
-		return r.nodes[i] >= position
+		return r.nodes[i] > position
 	})
 
 	if idx == len(r.nodes) {
@@ -79,4 +79,28 @@ func (r *HashRing) GetNode(key string) (string, error) {
 
 	return r.nodeMap[serverPosition], nil
 
+}
+
+// RemoveNode removes a physical server and all its virtual nodes from the ring
+func (r *HashRing) RemoveNode(nodeID string) {
+
+	//using a temporary slice to store all the postions belonging to the server being removed
+	positions := []uint64{}
+
+	for _, position := range r.nodes {
+		if r.nodeMap[position] == nodeID {
+			positions = append(positions, position)
+		}
+	}
+
+	//since go doesnt have a built in remove function for a slice
+	//rebuild the slice without the positions of the server being removed
+	newNodes := []uint64{}
+
+	for _, position := range r.nodes {
+		if r.nodeMap[position] != nodeID {
+			newNodes = append(newNodes, position)
+		}
+	}
+	r.nodes = newNodes
 }
