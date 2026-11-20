@@ -86,21 +86,21 @@ func (r *HashRing) RemoveNode(nodeID string) {
 
 	//using a temporary slice to store all the postions belonging to the server being removed
 	positions := []uint64{}
+	newNodes := []uint64{}
 
 	for _, position := range r.nodes {
 		if r.nodeMap[position] == nodeID {
 			positions = append(positions, position)
+		} else {
+			newNodes = append(newNodes, position)
 		}
 	}
 
 	//since go doesnt have a built in remove function for a slice
 	//rebuild the slice without the positions of the server being removed
-	newNodes := []uint64{}
 
-	for _, position := range r.nodes {
-		if r.nodeMap[position] != nodeID {
-			newNodes = append(newNodes, position)
-		}
+	for _, position := range positions {
+		delete(r.nodeMap, position)
 	}
 	r.nodes = newNodes
 }
