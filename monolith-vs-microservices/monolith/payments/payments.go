@@ -9,10 +9,10 @@ type Payment struct {
 
 var payments []Payment //slice to store payments
 
-func CreatePayment(id int, OrderID int, amount float64, status string) Payment {
+func CreatePayment(orderID int, amount float64) Payment {
 	payment := Payment{
 		ID:      len(payments) + 1,
-		OrderID: OrderID,
+		OrderID: orderID,
 		Amount:  amount,
 		Status:  "SUCCESS",
 	}
