@@ -1,4 +1,4 @@
-package user
+package users
 
 type User struct {
 	ID    int
@@ -8,9 +8,9 @@ type User struct {
 
 var users []User //slice yo store users
 
-func CreateUser(id int, name string, email string) User {
+func CreateUser(name string, email string) User {
 	user := User{
-		ID:    id,
+		ID:    len(users) + 1,
 		Name:  name,
 		Email: email,
 	}
