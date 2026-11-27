@@ -40,6 +40,7 @@ func createOrderHandler(w http.ResponseWriter, r *http.Request) {
 		Status: "CREATED",
 	}
 
+	// Simulate a call to the payment service
 	paymentRequest := map[string]interface{}{
 		"order_id": order.ID,
 		"amount":   order.Amount,
